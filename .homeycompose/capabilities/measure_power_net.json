@@ -1,0 +1,18 @@
+ 
+{
+    "type": "number",
+    "title": { 
+        "en": "Net power",
+        "nl": "Netto vermogen"
+    },
+    "getable": true,
+    "setable": false,
+    "uiComponent": "sensor",
+    "uiQuickAction": true,
+    "units": {
+        "en": "W"
+    },
+    "decimals": 1,
+    "insights": true,
+    "icon": "/assets/capabilities/bolt-sharp-light.svg"
+}

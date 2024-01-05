@@ -1,0 +1,50 @@
+{
+  "name": {
+    "en": "DSMR Reader"
+  },
+  "class": "sensor",
+  "capabilities": [
+    "measure_power",
+    "measure_power_net",
+    "measure_power_returned",
+
+    "meter_gas",
+    "meter_gas_year",
+
+    "meter_power",
+    "meter_power_returned",
+
+    "meter_power_net",
+    "meter_power_net_year",
+
+    "meter_power_year_returned",
+    "meter_power_year_delivered"
+  ],
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "lan"
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "pair"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

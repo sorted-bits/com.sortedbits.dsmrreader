@@ -1,0 +1,28 @@
+{
+  "id": "com.sortedbits.dsmrreader",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "DSMR Reader MQTT"
+  },
+  "description": {
+    "en": "Adds support for the DSMR Reader MQTT topics"
+  },
+  "category": [
+    "energy"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Wim Haanstra",
+    "email": "wim@x256.nl"
+  }
+}

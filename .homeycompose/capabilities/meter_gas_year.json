@@ -1,0 +1,18 @@
+ 
+{
+    "type": "number",
+    "title": { 
+        "en": "Gas this year",
+        "nl": "Gas dit jaar"
+    },
+    "getable": true,
+    "setable": false,
+    "uiComponent": "sensor",
+    "uiQuickAction": true,
+    "units": {
+        "en": "m3"
+    },
+    "decimals": 1,
+    "insights": true,
+    "icon": "/assets/capabilities/meter-fire-sharp-light.svg"
+}
