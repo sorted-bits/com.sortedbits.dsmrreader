@@ -1,6 +1,7 @@
-import Homey from 'homey';
+import Homey, { App } from 'homey';
 import { PairSession } from 'homey/lib/Driver';
 import { connectAsync } from 'mqtt';
+import { ArgumentAutocompleteResults } from 'homey/lib/FlowCard';
 
 class DsmrDriver extends Homey.Driver {
   host: string = '';
@@ -75,14 +76,13 @@ class DsmrDriver extends Homey.Driver {
         {
           name: `DSMR Reader MQTT`,
           data: {
-            id: `${this.username}:${this.password}@${this.host}:${this.port}/${this.topic}`,
+            id: `${this.username}:${this.password}@${this.host}:${this.port}`,
           },
           settings: {
             host: this.host,
             port: this.port,
             username: this.username,
             password: this.password,
-            topic: this.topic
           }
         }
       ];

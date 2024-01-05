@@ -1,0 +1,53 @@
+[
+    {
+        "id": "host",
+        "type": "text",
+        "label": {
+            "en": "Host"
+        },
+        "value": "192.168.1.100",
+        "hint": {
+            "en": "The IP/hostname of MQTT broker",
+            "nl": "Het IP of hostname van de MQTT server"
+        }
+    },
+    {
+        "id": "port",
+        "type": "text",
+        "label": {
+            "en": "Port",
+            "nl": "Poort"
+        },
+        "value": "1883",
+        "hint": {
+            "en": "The port of the MQTT broker",
+            "nl": "De poort van de MQTT server"
+        }
+    },    
+    {
+        "id": "username",
+        "type": "text",
+        "label": {
+            "en": "Username",
+            "nl": "Gebruikersnaam"
+        },
+        "value": "admin",
+        "hint": {
+            "en": "The username to access the MQTT broker",
+            "nl": "De gebruikersnaam om toegang te krijgen tot de MQTT server"
+        }
+    },
+    {
+        "id": "password",
+        "type": "password",
+        "label": {
+            "en": "Password",
+            "nl": "Wachtwoord"
+        },
+        "value": "somevalue",
+        "hint": {
+            "en": "The password to access the MQTT broker",
+            "nl": "Het wachtwoord om toegang te krijgen tot de MQTT server"
+        }
+    }
+]

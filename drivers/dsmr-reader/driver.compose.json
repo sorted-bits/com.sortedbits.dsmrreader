@@ -20,6 +20,9 @@
     "meter_power_year_returned",
     "meter_power_year_delivered"
   ],
+  "energy": {
+    "cumulative": true
+  },  
   "platforms": [
     "local"
   ],

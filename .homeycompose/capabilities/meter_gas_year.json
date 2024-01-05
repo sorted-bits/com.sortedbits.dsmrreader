@@ -12,7 +12,7 @@
     "units": {
         "en": "m3"
     },
-    "decimals": 1,
+    "decimals": 2,
     "insights": true,
     "icon": "/assets/capabilities/meter-fire-sharp-light.svg"
 }

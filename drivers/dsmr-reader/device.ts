@@ -17,40 +17,29 @@ class DsmrReader extends Homey.Device {
     return v;
   }
 
-  netCalculation(definition: DsmrDefinition, topic: string): number | undefined {
-    if (definition.dependencies === undefined) {
+  netCalculation(definition: DsmrDefinition): number | undefined {
+    if (definition.returned === undefined) {
       return undefined;
     }
-    if (this.latestData[definition.dependencies.delivered] == undefined) {
+    if (this.latestData[definition.topic] == undefined) {
       return undefined;
     }
-    if (this.latestData[definition.dependencies.returned] == undefined) {
+    if (this.latestData[definition.returned] == undefined) {
       return undefined;
     }
 
-    const result = this.latestData[definition.dependencies.delivered] -
-      this.latestData[definition.dependencies.returned];
+    const result = this.latestData[definition.topic] -
+      this.latestData[definition.returned];
 
     return result;
   }
 
   async parseData(topic: string, data: Buffer) {
-    const baseTopic = this.getSetting('topic') ?? 'dsmr';
-
-    if (!topic.startsWith(`${baseTopic}/`)) {
-      this.error('Unknown topic received', topic);
-    }
-
-    const cleanTopic = topic.substring(baseTopic.length + 1);
-
-    const definitions = DsmrDefinitions.filter(d => d.topic === cleanTopic);
-
-    // We should also find definitions where this topic is a dependency
-    // To make the results more responsive
+    const definitions = DsmrDefinitions.filter(d => d.topic === topic || d.returned === topic);
 
     definitions.forEach(definition => {
       if (!definition) {
-        this.error('Could not find topic definition', cleanTopic);
+        this.error('Could not find topic definition', topic);
         return;
       }
 
@@ -66,14 +55,18 @@ class DsmrReader extends Homey.Device {
           break;
         }
         case Conversion.CalculateNet: {
-          result = this.netCalculation(definition, cleanTopic);
-          this.log('net calculation?', definition.capability, result);
+          result = this.netCalculation(definition);
           break;
         }
       }
 
       if (result !== undefined) {
-        this.latestData[cleanTopic] = result;
+        if (definition.topic === topic) {
+          this.latestData[topic] = result;
+        } else if (definition.returned === topic) {
+          this.latestData[definition.topic] = result;
+        }
+        
         this.setCapabilityValue(definition.capability, result);
       }
 
@@ -84,7 +77,6 @@ class DsmrReader extends Homey.Device {
 
     const host = this.getSetting('host');
     const port = this.getSetting('port') ?? 1883;
-    const topic = this.getSetting('topic') ?? 'dsmr';
     const username = this.getSetting('username');
     const password = this.getSetting('password');
 
@@ -106,16 +98,14 @@ class DsmrReader extends Homey.Device {
     }
 
     client.on('connect', () => {
-      this.log(`Connected to broker, subscribing to ${topic}`);
       this.client = client;
 
-      const topics = DsmrDefinitions.map(def => `${topic}/${def.topic}`);
+      const topics = DsmrDefinitions.map(def => def.topic);
 
       const dependencies: string[] = [];
       DsmrDefinitions.forEach(def => {
-        if (def.dependencies) {
-          dependencies.push(def.dependencies.delivered);
-          dependencies.push(def.dependencies.returned);
+        if (def.returned) {
+          dependencies.push(def.returned);
         }
       });
 

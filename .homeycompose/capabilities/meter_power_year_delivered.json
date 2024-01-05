@@ -12,7 +12,7 @@
     "units": {
         "en": "kWh"
     },
-    "decimals": 1,
+    "decimals": 2,
     "insights": true,
     "icon": "/assets/capabilities/meter-bolt-sharp-light.svg"
 }
