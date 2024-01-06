@@ -8,14 +8,12 @@
         var port = document.getElementById('port').value;
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
-        var topic = document.getElementById('topic').value;
 
         var data = {
             username: username,
             password: password,
             host: host,
             port: port,
-            topic: topic
         };
 
         Homey.emit("form_complete", data).then(function (result) {
