@@ -61,12 +61,14 @@ class DsmrReader extends Homey.Device {
       }
 
       if (result !== undefined) {
-        if (definition.topic === topic) {
-          this.latestData[topic] = result;
-        } else if (definition.returned === topic) {
-          this.latestData[definition.topic] = result;
+        if (definition.conversion !== Conversion.CalculateNet) {
+          if (definition.topic === topic) {
+            this.latestData[topic] = result;
+          } else if (definition.returned === topic) {
+            this.latestData[definition.topic] = result;
+          }
         }
-        
+
         this.setCapabilityValue(definition.capability, result);
       }
 
