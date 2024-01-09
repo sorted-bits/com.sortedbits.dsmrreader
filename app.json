@@ -147,7 +147,7 @@
       },
       "decimals": 1,
       "insights": true,
-      "icon": "/assets/capabilities/bolt-sharp-light.svg"
+      "icon": "/assets/capabilities/bolt-sharp-thin.svg"
     },
     "measure_power_returned": {
       "type": "number",
@@ -164,7 +164,7 @@
       },
       "decimals": 1,
       "insights": true,
-      "icon": "/assets/capabilities/bolt-sharp-light.svg"
+      "icon": "/assets/capabilities/bolt-sharp-thin.svg"
     },
     "meter_gas_year": {
       "type": "number",
@@ -181,7 +181,7 @@
       },
       "decimals": 2,
       "insights": true,
-      "icon": "/assets/capabilities/meter-fire-sharp-light.svg"
+      "icon": "/assets/capabilities/meter-fire-sharp-thin.svg"
     },
     "meter_power_net": {
       "type": "number",
@@ -198,7 +198,7 @@
       },
       "decimals": 2,
       "insights": true,
-      "icon": "/assets/capabilities/meter-bolt-sharp-light.svg"
+      "icon": "/assets/capabilities/meter-bolt-sharp-thin.svg"
     },
     "meter_power_net_year": {
       "type": "number",
@@ -215,7 +215,7 @@
       },
       "decimals": 2,
       "insights": true,
-      "icon": "/assets/capabilities/meter-bolt-sharp-light.svg"
+      "icon": "/assets/capabilities/meter-bolt-sharp-thin.svg"
     },
     "meter_power_returned": {
       "type": "number",
@@ -232,7 +232,7 @@
       },
       "decimals": 2,
       "insights": true,
-      "icon": "/assets/capabilities/meter-bolt-sharp-light.svg"
+      "icon": "/assets/capabilities/meter-bolt-sharp-thin.svg"
     },
     "meter_power_year_delivered": {
       "type": "number",
@@ -249,7 +249,7 @@
       },
       "decimals": 2,
       "insights": true,
-      "icon": "/assets/capabilities/meter-bolt-sharp-light.svg"
+      "icon": "/assets/capabilities/meter-bolt-sharp-thin.svg"
     },
     "meter_power_year_returned": {
       "type": "number",
@@ -266,7 +266,7 @@
       },
       "decimals": 2,
       "insights": true,
-      "icon": "/assets/capabilities/meter-bolt-sharp-light.svg"
+      "icon": "/assets/capabilities/meter-bolt-sharp-thin.svg"
     }
   }
 }
