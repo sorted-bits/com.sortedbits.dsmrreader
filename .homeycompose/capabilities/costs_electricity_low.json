@@ -1,0 +1,19 @@
+
+{
+    "type": "number",
+    "title": {
+        "en": "Electricity (low)",
+        "nl": "Electriciteit (dal)"
+    },
+    "getable": true,
+    "setable": false,
+    "uiComponent": "sensor",
+    "uiQuickAction": true,
+    "units": {
+        "en": "€",
+        "nl": "€"
+    },
+    "decimals": 2,
+    "insights": true,
+    "icon": "/assets/capabilities/euro-sign-sharp-light.svg"
+}

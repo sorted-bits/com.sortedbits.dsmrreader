@@ -1,0 +1,19 @@
+
+{
+    "type": "number",
+    "title": {
+        "en": "Electricity (total)",
+        "nl": "Electriciteit (totaal)"
+    },
+    "getable": true,
+    "setable": false,
+    "uiComponent": "sensor",
+    "uiQuickAction": true,
+    "units": {
+        "en": "€",
+        "nl": "€"
+    },
+    "decimals": 2,
+    "insights": true,
+    "icon": "/assets/capabilities/euro-sign-sharp-light.svg"
+}

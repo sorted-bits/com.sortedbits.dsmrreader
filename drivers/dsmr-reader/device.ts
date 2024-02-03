@@ -21,29 +21,29 @@ class DsmrReader extends Homey.Device {
     if (definition.returned === undefined) {
       return undefined;
     }
-    if (this.latestData[definition.topic] == undefined) {
+    if (this.latestData[definition.topic] === undefined) {
       return undefined;
     }
-    if (this.latestData[definition.returned] == undefined) {
+    if (this.latestData[definition.returned] === undefined) {
       return undefined;
     }
 
-    const result = this.latestData[definition.topic] -
-      this.latestData[definition.returned];
+    const result = this.latestData[definition.topic]
+      - this.latestData[definition.returned];
 
     return result;
   }
 
-  async parseData(topic: string, data: Buffer) {
-    const definitions = DsmrDefinitions.filter(d => d.topic === topic || d.returned === topic);
+  parseData = async (topic: string, data: Buffer) => {
+    const definitions = DsmrDefinitions.filter((d) => d.topic === topic || d.returned === topic);
 
-    definitions.forEach(definition => {
+    for (const definition of definitions) {
       if (!definition) {
         this.error('Could not find topic definition', topic);
         return;
       }
 
-      let result: any | undefined = undefined;
+      let result: any | undefined;
 
       switch (definition.conversion) {
         case Conversion.toNumber: {
@@ -58,6 +58,10 @@ class DsmrReader extends Homey.Device {
           result = this.netCalculation(definition);
           break;
         }
+        default: {
+          this.log('No conversion found for', definition.conversion);
+          break;
+        }
       }
 
       if (result !== undefined) {
@@ -69,31 +73,29 @@ class DsmrReader extends Homey.Device {
           }
         }
 
-        this.setCapabilityValue(definition.capability, result);
+        await this.setCapabilityValue(definition.capability, result);
       }
-
-    });
+    }
   }
 
   async connectToMqtt() {
-
-    const host = this.getSetting('host');
-    const port = this.getSetting('port') ?? 1883;
-    const username = this.getSetting('username');
-    const password = this.getSetting('password');
+    const {
+      host, port, username, password, protocol, validateCertificate,
+    } = this.getSettings();
 
     if (this.client && this.client.connected) {
       this.client.end();
     }
 
-    const broker = `${host}:${port}`;
+    const broker = `${protocol ?? 'mqtt'}://${host}:${port ?? 1883}`;
     this.log(`Connecting to broker ${broker}`);
 
-    const client = connect(`mqtt://${host}`, {
-      username: username,
-      password: password,
+    const client = connect(`${protocol}}://${host}`, {
+      username,
+      password,
       port: Number(port),
-    })
+      rejectUnauthorized: validateCertificate ?? true,
+    });
 
     if (client.connected) {
       this.log('Client connected');
@@ -102,10 +104,10 @@ class DsmrReader extends Homey.Device {
     client.on('connect', () => {
       this.client = client;
 
-      const topics = DsmrDefinitions.map(def => def.topic);
+      const topics = DsmrDefinitions.map((def) => def.topic);
 
       const dependencies: string[] = [];
-      DsmrDefinitions.forEach(def => {
+      DsmrDefinitions.forEach((def) => {
         if (def.returned) {
           dependencies.push(def.returned);
         }
@@ -113,21 +115,33 @@ class DsmrReader extends Homey.Device {
 
       const allTopics = [
         ...topics,
-        ...dependencies
+        ...dependencies,
       ];
 
       client.subscribe(allTopics, () => {
-        this.log(`Succesfully subscribed to ${allTopics.length} topics`)
+        this.log(`Succesfully subscribed to ${allTopics.length} topics`);
       });
     });
 
     client.on('message', (topic, data, packet) => {
-      this.parseData(topic, data);
-    })
+      this.log(`Received packet in ${topic}: ${data.length}`);
+
+      this.parseData(topic, data).then(() => {
+        this.log('Data from MQTT parsed');
+      }).catch((error) => {
+        this.error('Error while parsing data', error);
+      });
+    });
 
     client.on('disconnect', () => {
       this.log('Disconnected from broker');
-    })
+    });
+  }
+
+  async checkCapability(capabilityName: string) {
+    if (this.hasCapability(capabilityName) === false) {
+      await this.addCapability(capabilityName);
+    }
   }
 
   /**
@@ -136,7 +150,24 @@ class DsmrReader extends Homey.Device {
   async onInit() {
     this.log('DsmrReader has been initialized');
 
-    this.connectToMqtt();
+    await this.checkCapability('costs_electricity_high');
+    await this.checkCapability('costs_electricity_low');
+    await this.checkCapability('costs_electricity_merged');
+    await this.checkCapability('costs_fixed');
+    await this.checkCapability('costs_gas');
+    await this.checkCapability('costs_total');
+
+    await this.checkCapability('measure_power_net');
+    await this.checkCapability('measure_power_returned');
+
+    await this.checkCapability('meter_gas_year');
+    await this.checkCapability('meter_power_net_year');
+    await this.checkCapability('meter_power_net');
+    await this.checkCapability('meter_power_returned');
+    await this.checkCapability('meter_power_year_delivered');
+    await this.checkCapability('meter_power_year_returned');
+
+    await this.connectToMqtt();
   }
 
   /**
@@ -163,7 +194,7 @@ class DsmrReader extends Homey.Device {
     newSettings: { [key: string]: boolean | string | number | undefined | null };
     changedKeys: string[];
   }): Promise<string | void> {
-    this.log("DsmrReader settings where changed");
+    this.log('DsmrReader settings where changed');
 
     await this.connectToMqtt();
   }
@@ -182,7 +213,7 @@ class DsmrReader extends Homey.Device {
    */
   async onDeleted() {
     if (this.client && this.client.connected) {
-      this.log(`Disconnecting from MQTT broker`);
+      this.log('Disconnecting from MQTT broker');
       this.client.end();
     }
 

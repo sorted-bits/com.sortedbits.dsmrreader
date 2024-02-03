@@ -1,0 +1,18 @@
+{
+    "type": "number",
+    "title": {
+        "en": "Fixed costs",
+        "nl": "Vaste kosten"
+    },
+    "getable": true,
+    "setable": false,
+    "uiComponent": "sensor",
+    "uiQuickAction": true,
+    "units": {
+        "en": "€/day",
+        "nl": "€/dag"
+    },
+    "decimals": 2,
+    "insights": true,
+    "icon": "/assets/capabilities/euro-sign-sharp-light.svg"
+}

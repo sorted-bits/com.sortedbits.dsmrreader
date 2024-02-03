@@ -18,7 +18,15 @@
     "meter_power_net_year",
 
     "meter_power_year_returned",
-    "meter_power_year_delivered"
+    "meter_power_year_delivered",
+
+    "costs_electricity_merged",
+    "costs_electricity_high",
+    "costs_electricity_low",
+    "costs_fixed",
+    "costs_gas",
+    "costs_total"
+    
   ],
   "energy": {
     "cumulative": true

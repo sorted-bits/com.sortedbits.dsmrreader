@@ -10,7 +10,7 @@
     "en": "DSMR Reader MQTT"
   },
   "description": {
-    "en": "Adds support for the DSMR Reader MQTT topics"
+    "en": "Keeping an eye on your usages"
   },
   "category": [
     "energy"
@@ -24,5 +24,6 @@
   "author": {
     "name": "Wim Haanstra",
     "email": "wim@x256.nl"
-  }
+  },
+  "brandColor": "#EC0017"
 }

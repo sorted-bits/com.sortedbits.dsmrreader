@@ -1,9 +1,14 @@
-import Homey, { App } from 'homey';
+import Homey from 'homey';
 import { PairSession } from 'homey/lib/Driver';
 import { connectAsync } from 'mqtt';
-import { ArgumentAutocompleteResults } from 'homey/lib/FlowCard';
+
+interface TestPairingResult {
+  success: boolean;
+  message?: unknown;
+}
 
 class DsmrDriver extends Homey.Driver {
+
   host: string = '';
   port: string = '';
   username: string | undefined = undefined;
@@ -17,14 +22,12 @@ class DsmrDriver extends Homey.Driver {
     this.log('DsmrDriver has been initialized');
   }
 
-  async _testPairing(data: any, session: PairSession) {
-    if (data.host && data.port && data.topic) {
-
+  async _testPairing(data: any, session: PairSession): Promise<TestPairingResult> {
+    if (data.host && data.port) {
       this.host = data.host;
       this.port = data.port ?? '1883';
       this.username = data.username;
       this.password = data.password;
-      this.topic = data.topic;
 
       try {
         this.log('Connecting to broker at ', this.host);
@@ -38,43 +41,47 @@ class DsmrDriver extends Homey.Driver {
           this.log('Connected succesfully, closing connection');
 
           connection.end();
-          session.nextView();
+          await session.nextView();
 
           return {
             success: true,
-          }
-        } else {
-          this.log('Not connected?');
-          return {
-            success: false,
-            message: 'Unable to connect, unknown error'
           };
         }
+        this.log('Not connected?');
+        return {
+          success: false,
+          message: 'Unable to connect, unknown error',
+        };
       } catch (error) {
         this.log('Failed to connect with error', error);
         return {
           success: false,
-          message: error
-        }
+          message: error,
+        };
       }
+    } else {
+      return {
+        success: false,
+        message: 'Missing host and port',
+      };
     }
   }
 
   async onPair(session: PairSession) {
     await session.done();
 
-    session.setHandler("form_complete", async (data) => {
+    session.setHandler('form_complete', async (data) => {
       this.log('Calling testPairing with ', data);
-      return await this._testPairing(data, session);
+      return this._testPairing(data, session);
     });
 
-    session.setHandler("showView", async (view) => {
+    session.setHandler('showView', async (view) => {
     });
 
-    session.setHandler("list_devices", async () => {
+    session.setHandler('list_devices', async () => {
       return [
         {
-          name: `DSMR Reader MQTT`,
+          name: 'DSMR Reader MQTT',
           data: {
             id: `${this.username}:${this.password}@${this.host}:${this.port}`,
           },
@@ -83,8 +90,8 @@ class DsmrDriver extends Homey.Driver {
             port: this.port,
             username: this.username,
             password: this.password,
-          }
-        }
+          },
+        },
       ];
     });
   }

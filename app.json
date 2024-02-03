@@ -11,7 +11,7 @@
     "en": "DSMR Reader MQTT"
   },
   "description": {
-    "en": "Adds support for the DSMR Reader MQTT topics"
+    "en": "Keeping an eye on your usages"
   },
   "category": [
     "energy"
@@ -26,6 +26,7 @@
     "name": "Wim Haanstra",
     "email": "wim@x256.nl"
   },
+  "brandColor": "#EC0017",
   "drivers": [
     {
       "name": {
@@ -43,7 +44,13 @@
         "meter_power_net",
         "meter_power_net_year",
         "meter_power_year_returned",
-        "meter_power_year_delivered"
+        "meter_power_year_delivered",
+        "costs_electricity_merged",
+        "costs_electricity_high",
+        "costs_electricity_low",
+        "costs_fixed",
+        "costs_gas",
+        "costs_total"
       ],
       "energy": {
         "cumulative": true
@@ -132,6 +139,114 @@
     }
   ],
   "capabilities": {
+    "costs_electricity_high": {
+      "type": "number",
+      "title": {
+        "en": "Electricity (normal)",
+        "nl": "Electriciteit (normaal)"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": true,
+      "units": {
+        "en": "€",
+        "nl": "€"
+      },
+      "decimals": 2,
+      "insights": true,
+      "icon": "/assets/capabilities/euro-sign-sharp-light.svg"
+    },
+    "costs_electricity_low": {
+      "type": "number",
+      "title": {
+        "en": "Electricity (low)",
+        "nl": "Electriciteit (dal)"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": true,
+      "units": {
+        "en": "€",
+        "nl": "€"
+      },
+      "decimals": 2,
+      "insights": true,
+      "icon": "/assets/capabilities/euro-sign-sharp-light.svg"
+    },
+    "costs_electricity_merged": {
+      "type": "number",
+      "title": {
+        "en": "Electricity (total)",
+        "nl": "Electriciteit (totaal)"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": true,
+      "units": {
+        "en": "€",
+        "nl": "€"
+      },
+      "decimals": 2,
+      "insights": true,
+      "icon": "/assets/capabilities/euro-sign-sharp-light.svg"
+    },
+    "costs_fixed": {
+      "type": "number",
+      "title": {
+        "en": "Fixed costs",
+        "nl": "Vaste kosten"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": true,
+      "units": {
+        "en": "€/day",
+        "nl": "€/dag"
+      },
+      "decimals": 2,
+      "insights": true,
+      "icon": "/assets/capabilities/euro-sign-sharp-light.svg"
+    },
+    "costs_gas": {
+      "type": "number",
+      "title": {
+        "en": "Gas cost",
+        "nl": "Gas kosten"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": true,
+      "units": {
+        "en": "€",
+        "nl": "€"
+      },
+      "decimals": 2,
+      "insights": true,
+      "icon": "/assets/capabilities/euro-sign-sharp-light.svg"
+    },
+    "costs_total": {
+      "type": "number",
+      "title": {
+        "en": "Total costs",
+        "nl": "Totale kosten"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "uiQuickAction": true,
+      "units": {
+        "en": "€",
+        "nl": "€"
+      },
+      "decimals": 2,
+      "insights": true,
+      "icon": "/assets/capabilities/euro-sign-sharp-light.svg"
+    },
     "measure_power_net": {
       "type": "number",
       "title": {
