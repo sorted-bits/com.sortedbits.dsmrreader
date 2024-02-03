@@ -90,7 +90,7 @@ class DsmrReader extends Homey.Device {
     const broker = `${protocol ?? 'mqtt'}://${host}:${port ?? 1883}`;
     this.log(`Connecting to broker ${broker}`);
 
-    const client = connect(`${protocol}}://${host}`, {
+    const client = connect(`${protocol ?? 'mqtt'}://${host}`, {
       username,
       password,
       port: Number(port),
@@ -124,13 +124,10 @@ class DsmrReader extends Homey.Device {
     });
 
     client.on('message', (topic, data, packet) => {
-      this.log(`Received packet in ${topic}: ${data.length}`);
-
-      this.parseData(topic, data).then(() => {
-        this.log('Data from MQTT parsed');
-      }).catch((error) => {
-        this.error('Error while parsing data', error);
-      });
+      this.parseData(topic, data)
+        .catch((error) => {
+          this.error('Error while parsing data', error);
+        });
     });
 
     client.on('disconnect', () => {
